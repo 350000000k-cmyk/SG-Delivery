@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { RootShell } from '@/components/root-shell'
+import { AuthProvider } from '@/components/auth-provider'
 import { Toaster } from '@/components/ui/toaster'
 import 'leaflet/dist/leaflet.css'
 import './globals.css'
@@ -40,7 +41,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased">
-        <RootShell>{children}</RootShell>
+        <AuthProvider>
+          <RootShell>{children}</RootShell>
+        </AuthProvider>
         <Analytics />
         <Toaster />
       </body>

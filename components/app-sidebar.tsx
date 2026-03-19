@@ -13,9 +13,11 @@ import {
   Truck,
   Menu,
   X,
+  LogOut,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
+import { useAuth } from "@/components/auth-provider"
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -30,6 +32,7 @@ const navItems = [
 export function AppSidebar() {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { user, logout } = useAuth()
 
   return (
     <>
@@ -109,12 +112,22 @@ export function AppSidebar() {
         <div className="border-t border-sidebar-border px-5 py-4">
           <div className="flex items-center gap-3">
             <div className="flex size-8 items-center justify-center rounded-full bg-sidebar-accent text-xs font-semibold text-sidebar-accent-foreground">
-              SG
+              {user?.email ? user.email[0].toUpperCase() : "A"}
             </div>
-            <div className="flex flex-col">
-              <span className="text-xs font-medium text-sidebar-foreground">Admin User</span>
-              <span className="text-[11px] text-sidebar-foreground/50">admin@sterlinglams.com</span>
+            <div className="flex min-w-0 flex-1 flex-col">
+              <span className="text-xs font-medium text-sidebar-foreground">Admin</span>
+              <span className="truncate text-[11px] text-sidebar-foreground/50">
+                {user?.email ?? "admin@sterlinglams.com"}
+              </span>
             </div>
+            <button
+              onClick={logout}
+              className="rounded-md p-1.5 text-sidebar-foreground/50 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
+              aria-label="Sign out"
+              title="Sign out"
+            >
+              <LogOut className="size-4" />
+            </button>
           </div>
         </div>
       </aside>
